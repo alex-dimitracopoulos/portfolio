@@ -1,54 +1,35 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { TypeAnimation } from "react-type-animation";
 import { Calligraph } from "calligraph";
 
 const phrases = [
-  "Hello World, I'm Alex",    // English
-  "Hola Mundo, soy Alex",     // Spanish
-  "Bonjour Monde, je suis Alex", // French
-  "Ciao Mondo, sono Alex",    // Italian
-  "Hallo Welt, ich bin Alex", // German
-  "Привет мир, я Алекс",      // Russian
-  "こんにちは世界、私はアレックスです", // Japanese
-  "Γεια σου Κόσμε, είμαι ο Αλεξ", // Greek
-  "Hello World, I'm Alex",    // back to English
+  "Hello World, I'm Alex",
+  "Hola Mundo, soy Alex",
+  "Γεια σου Κόσμε, είμαι ο Αλεξ",
+  "Bonjour Monde, je suis Alex",
+  "Ciao Mondo, sono Alex",
+  "Hallo Welt, ich bin Alex",
+  "Привет мир, я Алекс",
+  "こんにちは世界、私はアレックスです",
+  "Hello World, I'm Alex",
 ];
 
 export default function Home() {
-  const [phase, setPhase] = useState<"typing" | "morphing">("typing");
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    if (phase !== "morphing") return;
     const interval = setInterval(() => {
       setIndex((i) => (i + 1) % phrases.length);
-    }, 3000);
+    }, 4500);
     return () => clearInterval(interval);
-  }, [phase]);
+  }, []);
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-black">
-      {phase === "typing" ? (
-        <TypeAnimation
-          sequence={[
-            "Hello World, I'm Alex",
-            500,
-            () => setPhase("morphing"),
-          ]}
-          speed={50}
-          cursor={false}
-          className="text-4xl font-bold text-white"
-        />
-      ) : (
-        <Calligraph
-          animation="smooth"
-          className="text-4xl font-bold text-white"
-        >
-          {phrases[index]}
-        </Calligraph>
-      )}
+      <Calligraph animation="smooth" autoSize={false} className="text-4xl font-bold text-white">
+        {phrases[index]}
+      </Calligraph>
     </main>
   );
 }
