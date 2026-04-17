@@ -28,8 +28,8 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-14 bg-black">
-      <Calligraph animation="smooth" autoSize={false} className="text-4xl font-bold text-white">
+    <main className="flex min-h-screen flex-col items-center justify-center gap-10 bg-black px-6 sm:gap-14">
+      <Calligraph animation="smooth" autoSize={false} className="text-2xl font-bold text-white text-center sm:text-3xl md:text-4xl">
         {phrases[index]}
       </Calligraph>
       <div className="flex gap-6">
