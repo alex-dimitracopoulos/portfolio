@@ -283,11 +283,11 @@ export default function GalleryPage() {
           <div aria-hidden style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }}>
             <div style={{
               position: "absolute", inset: 0,
-              background: "radial-gradient(ellipse 70% 65% at 0% 0%, rgba(185,168,228,0.72) 0%, transparent 100%)",
+              background: "radial-gradient(ellipse 80% 75% at -5% -5%, rgba(185,168,228,0.80) 0%, transparent 70%)",
             }} />
             <div style={{
               position: "absolute", inset: 0,
-              background: "radial-gradient(ellipse 70% 65% at 100% 100%, rgba(128,196,180,0.68) 0%, transparent 100%)",
+              background: "radial-gradient(ellipse 80% 75% at 105% 105%, rgba(128,196,180,0.75) 0%, transparent 70%)",
             }} />
             <div style={{
               position: "absolute", inset: 0,
@@ -326,12 +326,18 @@ export default function GalleryPage() {
           </div>
 
           <div aria-hidden style={{
-            position: "absolute", left: 0, top: "25%", height: "50%", width: "8vw", zIndex: 10,
-            background: "linear-gradient(to right, #f5f5f5 20%, transparent 100%)", pointerEvents: "none",
+            position: "absolute", left: 0, top: 0, width: "8vw", height: "100%", zIndex: 10,
+            background: "linear-gradient(to right, #f5f5f5 20%, transparent 100%)",
+            maskImage: "linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%)",
+            pointerEvents: "none",
           }} />
           <div aria-hidden style={{
-            position: "absolute", right: 0, top: "25%", height: "50%", width: "8vw", zIndex: 10,
-            background: "linear-gradient(to left, #f5f5f5 20%, transparent 100%)", pointerEvents: "none",
+            position: "absolute", right: 0, top: 0, width: "8vw", height: "100%", zIndex: 10,
+            background: "linear-gradient(to left, #f5f5f5 20%, transparent 100%)",
+            maskImage: "linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%)",
+            pointerEvents: "none",
           }} />
 
           <div style={{ position: "absolute", top: "50%", left: 0, transform: "translateY(-50%)" }}>
