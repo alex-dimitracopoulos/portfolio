@@ -1,6 +1,6 @@
 import { Client } from "@notionhq/client"
 import { NextResponse } from "next/server"
-import type { GalleryRelease } from "@/app/gallery/data"
+import type { GalleryRelease } from "@/app/abracadabra-album-gallery/data"
 
 const DATA_SOURCE_ID = process.env.NOTION_GALLERY_DATA_SOURCE_ID ?? ""
 
