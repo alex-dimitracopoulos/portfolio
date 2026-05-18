@@ -4,7 +4,6 @@ import { useEffect, useRef, useCallback, useState } from "react"
 import { animate, useMotionValue } from "framer-motion"
 import { Calligraph } from "calligraph"
 import Image from "next/image"
-import Link from "next/link"
 import { releases } from "./data"
 
 const BASE_W = 90
@@ -298,20 +297,7 @@ export default function GalleryPage() {
           </div>
 
           <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
-          <Link
-            href="/blondish"
-            style={{
-              position: "absolute", top: 24, left: 28,
-              fontFamily: "var(--font-geist-mono)", fontSize: "0.6rem",
-              letterSpacing: "0.14em", textTransform: "uppercase",
-              color: "rgba(39,39,42,0.45)", textDecoration: "none", zIndex: 30,
-              cursor: `url('/cursors/cursor-hover.svg') 23 23, pointer`,
-            }}
-          >
-            ← ABRACADABRA
-          </Link>
-
-          <div style={{
+<div style={{
             position: "absolute", top: 20, left: 0, right: 0,
             display: "flex", justifyContent: "center", zIndex: 30, pointerEvents: "none",
           }}>
