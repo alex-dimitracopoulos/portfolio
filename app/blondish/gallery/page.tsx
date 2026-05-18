@@ -293,6 +293,20 @@ export default function GalleryPage() {
             ← ABRACADABRA
           </Link>
 
+          <div style={{
+            position: "absolute", top: 20, left: 0, right: 0,
+            display: "flex", justifyContent: "center", zIndex: 30, pointerEvents: "none",
+          }}>
+            <Image
+              src="/abracadabra-logo.avif"
+              alt="Abracadabra Records"
+              width={480}
+              height={480}
+              style={{ opacity: 0.72 }}
+              priority
+            />
+          </div>
+
           <div aria-hidden style={{
             position: "absolute", left: 0, top: 0, width: "8vw", height: "100%", zIndex: 10,
             background: "linear-gradient(to right, #f5f5f5 20%, transparent 100%)", pointerEvents: "none",
