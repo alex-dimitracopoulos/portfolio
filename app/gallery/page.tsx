@@ -290,6 +290,10 @@ export default function GalleryPage() {
           aria-label="Abracadabra Records Discography"
           style={{ position: "sticky", top: 0, height: "100vh", background: "#f5f5f5" }}
         >
+          <style>{`
+            .g-card { width: ${MOBILE_BASE_W}px; height: ${MOBILE_BASE_W}px; flex-shrink: 0; overflow: hidden; border-radius: 2px; position: relative; will-change: width, height, opacity; }
+            @media (min-width: 640px) { .g-card { width: ${BASE_W}px; height: ${BASE_W}px; } }
+          `}</style>
           <div aria-hidden style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }}>
             <div style={{
               position: "absolute", inset: 0,
@@ -344,12 +348,8 @@ export default function GalleryPage() {
                 <div
                   key={r.id}
                   ref={el => { cardRefs.current[i] = el }}
-                  style={{
-                    width: BASE_W, height: BASE_W, flexShrink: 0,
-                    overflow: "hidden", borderRadius: 2, position: "relative",
-                    willChange: "width, height, opacity",
-                    cursor: `url('/cursors/cursor-hover.svg') 23 23, pointer`,
-                  }}
+                  className="g-card"
+                  style={{ cursor: `url('/cursors/cursor-hover.svg') 23 23, pointer` }}
                   onClick={() => {
                     const vw = window.innerWidth
                     const targetScroll = (i / (n - 1)) * SCROLL_RANGE
