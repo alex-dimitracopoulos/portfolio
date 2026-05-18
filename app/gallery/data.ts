@@ -8,7 +8,7 @@ export type GalleryRelease = {
   year: number
 }
 
-export const releases: GalleryRelease[] = [
+export const releasesAsc: GalleryRelease[] = [
   { id: "circus", title: "Circus", artist: "BLOND:ISH", src: "https://f4.bcbits.com/img/a2478098024_10.jpg", date: "2018-09-21", month: "September", year: 2018 },
   { id: "jewel-of-the-nile", title: "Jewel Of The Nile", artist: "Sobek", src: "https://f4.bcbits.com/img/a3834491907_10.jpg", date: "2018-10-19", month: "October", year: 2018 },
   { id: "zikomo", title: "Zikomo", artist: "BLOEM", src: "https://f4.bcbits.com/img/a2110127197_10.jpg", date: "2018-11-30", month: "November", year: 2018 },
@@ -94,3 +94,7 @@ export const releases: GalleryRelease[] = [
   { id: "st-rose-edit-of-edits", title: "St Rose (Edit of edits)", artist: "BLOND:ISH", src: "https://f4.bcbits.com/img/a4047696865_10.jpg", date: "", month: "", year: 0 },
   { id: "blondish-coconut-edit", title: "BLOND:ISH COCONUT EDIT", artist: "BLOND:ISH", src: "https://f4.bcbits.com/img/a1636863011_10.jpg", date: "", month: "", year: 0 },
 ]
+
+const _dated = releasesAsc.filter(r => r.date)
+const _undated = releasesAsc.filter(r => !r.date)
+export const releases: GalleryRelease[] = [..._dated.slice().reverse(), ..._undated]
