@@ -104,7 +104,7 @@ export const releasesAsc: GalleryRelease[] = [
   { id: "inside-out", title: "Inside Out", artist: "Victor Flash", src: "https://f4.bcbits.com/img/a3179672238_10.jpg", date: "2026-03-20", month: "March", year: 2026 },
   { id: "1886", title: "1886", artist: "Orsay & Kotiēr", src: "https://f4.bcbits.com/img/a1666735052_10.jpg", date: "2026-04-10", month: "April", year: 2026 },
   { id: "keeper", title: "Keeper", artist: "Meca", src: "https://f4.bcbits.com/img/a1095822060_10.jpg", date: "2026-04-24", month: "April", year: 2026 },
-  { id: "thats-life", title: "That's Life", artist: "Mont Rouge, Mooglie", src: "https://f4.bcbits.com/img/a4093328125_10.jpg", date: "2026-05-08", month: "May", year: 2026 },
+  { id: "thats-life", title: "That's Life", artist: "Mont Rouge, Mooglie", src: "https://f4.bcbits.com/img/a4093318125_10.jpg", date: "2026-05-08", month: "May", year: 2026 },
   { id: "surface-noise", title: "Surface Noise", artist: "Nico Rac", src: "https://f4.bcbits.com/img/a0981944266_10.jpg", date: "2026-05-29", month: "May", year: 2026 },
   { id: "st-rose-edit-of-edits", title: "St Rose (Edit of edits)", artist: "BLOND:ISH", src: "https://f4.bcbits.com/img/a4047696865_10.jpg", date: "", month: "", year: 0 },
   { id: "blondish-coconut-edit", title: "BLOND:ISH COCONUT EDIT", artist: "BLOND:ISH", src: "https://f4.bcbits.com/img/a1636863011_10.jpg", date: "", month: "", year: 0 },
