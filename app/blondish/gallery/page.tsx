@@ -278,9 +278,9 @@ export default function GalleryPage() {
         <div
           role="region"
           aria-label="Abracadabra Records Discography"
-          style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden", background: "#f5f5f5" }}
+          style={{ position: "sticky", top: 0, height: "100vh", background: "#f5f5f5" }}
         >
-          <div aria-hidden style={{ position: "absolute", top: 0, left: "calc(-50vw + 50%)", width: "100vw", height: "100vh", zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
+          <div aria-hidden style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }}>
             <div style={{
               position: "absolute", inset: 0,
               background: "radial-gradient(ellipse 70% 65% at 0% 0%, rgba(185,168,228,0.72) 0%, transparent 100%)",
@@ -297,6 +297,7 @@ export default function GalleryPage() {
             }} />
           </div>
 
+          <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
           <Link
             href="/blondish"
             style={{
@@ -325,11 +326,11 @@ export default function GalleryPage() {
           </div>
 
           <div aria-hidden style={{
-            position: "absolute", left: 0, top: 0, width: "8vw", height: "100%", zIndex: 10,
+            position: "absolute", left: 0, top: "25%", height: "50%", width: "8vw", zIndex: 10,
             background: "linear-gradient(to right, #f5f5f5 20%, transparent 100%)", pointerEvents: "none",
           }} />
           <div aria-hidden style={{
-            position: "absolute", right: 0, top: 0, width: "8vw", height: "100%", zIndex: 10,
+            position: "absolute", right: 0, top: "25%", height: "50%", width: "8vw", zIndex: 10,
             background: "linear-gradient(to left, #f5f5f5 20%, transparent 100%)", pointerEvents: "none",
           }} />
 
@@ -462,6 +463,7 @@ export default function GalleryPage() {
                 color: "#71717a", display: "block", whiteSpace: "pre-line", lineHeight: 1.5,
               }} />
             </div>
+          </div>
           </div>
         </div>
 
