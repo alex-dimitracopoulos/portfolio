@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useRef, useCallback } from "react"
+import { useEffect, useRef, useCallback, useState } from "react"
 import { animate, useMotionValue } from "framer-motion"
+import { Calligraph } from "calligraph"
 import Image from "next/image"
 import Link from "next/link"
 import { releases } from "./data"
@@ -108,12 +109,11 @@ export default function GalleryPage() {
 
   const galleryX = useMotionValue(0)
 
+  const [activeIdx, setActiveIdx] = useState(0)
+
   const stripRef = useRef<HTMLDivElement>(null)
   const ticksRef = useRef<(HTMLDivElement | null)[]>([])
   const railRef = useRef<HTMLDivElement>(null)
-  const captionTitleRef = useRef<HTMLSpanElement>(null)
-  const captionArtistRef = useRef<HTMLSpanElement>(null)
-  const dateRef = useRef<HTMLSpanElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
   const liveRef = useRef<HTMLDivElement>(null)
   const hoverIndexRef = useRef<number | null>(null)
@@ -135,11 +135,6 @@ export default function GalleryPage() {
   const applyCaption = useCallback((idx: number) => {
     const r = releases[idx]
     if (!r) return
-    if (captionTitleRef.current) captionTitleRef.current.textContent = r.title
-    if (captionArtistRef.current) captionArtistRef.current.textContent = r.artist
-    if (dateRef.current) {
-      dateRef.current.textContent = r.date ? `${r.month}\n${r.year}` : ""
-    }
     if (liveRef.current) liveRef.current.textContent = `${r.title} by ${r.artist}`
   }, [])
 
@@ -216,6 +211,7 @@ export default function GalleryPage() {
     if (s.activeIndex !== s.lastActiveIndex) {
       s.lastActiveIndex = s.activeIndex
       applyCaption(s.activeIndex)
+      setActiveIdx(s.activeIndex)
     }
 
     s.rafId = requestAnimationFrame(tick)
@@ -389,14 +385,30 @@ export default function GalleryPage() {
             position: "absolute", bottom: 155, left: 0, right: 0,
             textAlign: "center", zIndex: 20, pointerEvents: "none",
           }}>
-            <span ref={captionTitleRef} style={{
-              fontFamily: "var(--font-geist-sans)", fontSize: "0.875rem",
-              color: "#27272a", display: "block", marginBottom: 3,
-            }} />
-            <span ref={captionArtistRef} style={{
-              fontFamily: "var(--font-geist-sans)", fontSize: "0.75rem",
-              color: "#71717a", display: "block",
-            }} />
+            <div style={{ marginBottom: 3 }}>
+              <Calligraph
+                animation="smooth"
+                autoSize={false}
+                style={{
+                  fontFamily: "var(--font-geist-sans)", fontSize: "0.875rem",
+                  color: "#27272a",
+                }}
+              >
+                {releases[activeIdx]?.title ?? ""}
+              </Calligraph>
+            </div>
+            <div>
+              <Calligraph
+                animation="smooth"
+                autoSize={false}
+                style={{
+                  fontFamily: "var(--font-geist-sans)", fontSize: "0.75rem",
+                  color: "#71717a",
+                }}
+              >
+                {releases[activeIdx]?.artist ?? ""}
+              </Calligraph>
+            </div>
           </div>
 
           <div aria-hidden style={{
@@ -463,11 +475,31 @@ export default function GalleryPage() {
               </div>
             </div>
 
-            <div style={{ textAlign: "center", marginTop: 10 }}>
-              <span ref={dateRef} style={{
-                fontFamily: "var(--font-geist-sans)", fontSize: "0.8rem",
-                color: "#71717a", display: "block", whiteSpace: "pre-line", lineHeight: 1.5,
-              }} />
+            <div style={{ textAlign: "center", marginTop: 10, lineHeight: 1.5 }}>
+              <div>
+                <Calligraph
+                  animation="smooth"
+                  autoSize={false}
+                  style={{
+                    fontFamily: "var(--font-geist-sans)", fontSize: "0.8rem",
+                    color: "#71717a",
+                  }}
+                >
+                  {releases[activeIdx]?.date ? releases[activeIdx].month : ""}
+                </Calligraph>
+              </div>
+              <div>
+                <Calligraph
+                  animation="smooth"
+                  autoSize={false}
+                  style={{
+                    fontFamily: "var(--font-geist-sans)", fontSize: "0.8rem",
+                    color: "#71717a",
+                  }}
+                >
+                  {releases[activeIdx]?.date ? String(releases[activeIdx].year) : ""}
+                </Calligraph>
+              </div>
             </div>
           </div>
           </div>
