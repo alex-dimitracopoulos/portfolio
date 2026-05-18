@@ -407,7 +407,7 @@ export default function GalleryPage() {
               width={480}
               height={480}
               style={{ opacity: 0.72 }}
-              className="w-[160px] sm:w-[320px] md:w-[440px]"
+              className="w-[240px] sm:w-[320px] md:w-[440px]"
               priority
             />
           </div>
