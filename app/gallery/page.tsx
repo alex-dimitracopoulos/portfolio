@@ -244,6 +244,7 @@ export default function GalleryPage() {
 
     const onScroll = () => {
       if (isSettingScrollRef.current) return
+      if (window.innerWidth < 640) return
       galleryX.set(scrollToGalleryX(window.scrollY, window.innerWidth))
     }
     window.addEventListener("scroll", onScroll, { passive: true })
