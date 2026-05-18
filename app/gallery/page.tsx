@@ -8,8 +8,13 @@ import { releases } from "./data"
 
 const BASE_W = 90
 const EXPANDED_W = 360
+const MOBILE_BASE_W = 72
+const MOBILE_EXPANDED_W = 270
 const GAP = 4
 const PITCH = BASE_W + GAP
+
+function getBw(vw: number) { return vw < 640 ? MOBILE_BASE_W : BASE_W }
+function getExpW(vw: number) { return vw < 640 ? MOBILE_EXPANDED_W : EXPANDED_W }
 
 const WIDEN_RANGE = 2.12
 const TICK_MIN_H = 28
@@ -32,10 +37,11 @@ function smoothstep(t: number) {
 
 function getLayoutInfo(vw: number) {
   const n = releases.length
+  const bw = getBw(vw)
   const vpCenter = vw / 2
-  const virtualTotal = n * BASE_W + (n - 1) * GAP
-  const startOff = vpCenter - BASE_W / 2
-  const endOff = -(virtualTotal - vpCenter - BASE_W / 2)
+  const virtualTotal = n * bw + (n - 1) * GAP
+  const startOff = vpCenter - bw / 2
+  const endOff = -(virtualTotal - vpCenter - bw / 2)
   return { vpCenter, startOff, endOff }
 }
 
@@ -52,13 +58,16 @@ function galleryXToScroll(x: number, vw: number): number {
 }
 
 function getFocalSlot(galleryX: number, vw: number): number {
-  return (vw / 2 - galleryX - BASE_W / 2) / PITCH
+  const bw = getBw(vw)
+  return (vw / 2 - galleryX - bw / 2) / (bw + GAP)
 }
 
-function cardSize(i: number, focalSlot: number): number {
+function cardSize(i: number, focalSlot: number, vw: number): number {
+  const bw = getBw(vw)
+  const expW = getExpW(vw)
   const dist = Math.abs(focalSlot - i)
   const u = Math.min(1, dist / WIDEN_RANGE)
-  return lerp(BASE_W, EXPANDED_W, smoothstep(1 - u))
+  return lerp(bw, expW, smoothstep(1 - u))
 }
 
 function cardOpacity(i: number, focalSlot: number): number {
@@ -74,17 +83,18 @@ function tickHeight(i: number, focalSlot: number): number {
   return TICK_MIN_H + TICK_INTENSITY * (norm * norm)
 }
 
-function computeFlexCorrection(focalSlot: number): number {
+function computeFlexCorrection(focalSlot: number, vw: number): number {
+  const bw = getBw(vw)
   const lo = clamp(Math.floor(focalSlot), 0, releases.length - 1)
   const hi = Math.min(lo + 1, releases.length - 1)
   const frac = focalSlot - Math.floor(focalSlot)
 
-  let c = (cardSize(lo, focalSlot) - BASE_W) * (0.5 + 0.5 * frac)
-        + (cardSize(hi, focalSlot) - BASE_W) * 0.5 * frac
+  let c = (cardSize(lo, focalSlot, vw) - bw) * (0.5 + 0.5 * frac)
+        + (cardSize(hi, focalSlot, vw) - bw) * 0.5 * frac
 
   const loRange = Math.max(0, lo - Math.ceil(WIDEN_RANGE) - 1)
   for (let j = loRange; j < lo; j++) {
-    c += cardSize(j, focalSlot) - BASE_W
+    c += cardSize(j, focalSlot, vw) - bw
   }
   return c
 }
@@ -147,7 +157,8 @@ export default function GalleryPage() {
     s.focalSlot = getFocalSlot(s.currentX, vw)
     s.activeIndex = clamp(Math.round(s.focalSlot), 0, n - 1)
 
-    const displayX = s.currentX - computeFlexCorrection(s.focalSlot)
+    const bw = getBw(vw)
+    const displayX = s.currentX - computeFlexCorrection(s.focalSlot, vw)
     if (stripRef.current) {
       stripRef.current.style.transform = `translateX(${displayX}px)`
     }
@@ -158,11 +169,11 @@ export default function GalleryPage() {
       const inWindow = Math.abs(i - s.activeIndex) <= IMG_RENDER_WINDOW
       if (!inWindow) {
         el.style.opacity = "0"
-        el.style.width = `${BASE_W}px`
-        el.style.height = `${BASE_W}px`
+        el.style.width = `${bw}px`
+        el.style.height = `${bw}px`
         continue
       }
-      const sz = cardSize(i, s.focalSlot)
+      const sz = cardSize(i, s.focalSlot, vw)
       el.style.opacity = String(cardOpacity(i, s.focalSlot))
       el.style.width = `${sz}px`
       el.style.height = `${sz}px`
@@ -307,6 +318,7 @@ export default function GalleryPage() {
               width={480}
               height={480}
               style={{ opacity: 0.72 }}
+              className="w-[160px] sm:w-[320px] md:w-[440px]"
               priority
             />
           </div>
