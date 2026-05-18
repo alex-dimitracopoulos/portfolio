@@ -280,6 +280,23 @@ export default function GalleryPage() {
           aria-label="Abracadabra Records Discography"
           style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden", background: "#f5f5f5" }}
         >
+          <div aria-hidden style={{ position: "absolute", top: 0, left: "calc(-50vw + 50%)", width: "100vw", height: "100vh", zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
+            <div style={{
+              position: "absolute", inset: 0,
+              background: "radial-gradient(ellipse 70% 65% at 0% 0%, rgba(185,168,228,0.72) 0%, transparent 100%)",
+            }} />
+            <div style={{
+              position: "absolute", inset: 0,
+              background: "radial-gradient(ellipse 70% 65% at 100% 100%, rgba(128,196,180,0.68) 0%, transparent 100%)",
+            }} />
+            <div style={{
+              position: "absolute", inset: 0,
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E")`,
+              backgroundRepeat: "repeat", backgroundSize: "200px 200px",
+              opacity: 0.15, mixBlendMode: "soft-light",
+            }} />
+          </div>
+
           <Link
             href="/blondish"
             style={{
