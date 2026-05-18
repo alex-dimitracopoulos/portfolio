@@ -119,8 +119,10 @@ export default function GalleryPage() {
   const galleryX = useMotionValue(0)
 
   const [activeIdx, setActiveIdx] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
 
   const stripRef = useRef<HTMLDivElement>(null)
+  const sceneRef = useRef<HTMLDivElement>(null)
   const ticksRef = useRef<(HTMLDivElement | null)[]>([])
   const railRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -282,10 +284,78 @@ export default function GalleryPage() {
     return () => window.removeEventListener("keydown", onKey)
   }, [n, galleryX])
 
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640)
+    check()
+    window.addEventListener("resize", check)
+    return () => window.removeEventListener("resize", check)
+  }, [])
+
+  useEffect(() => {
+    if (!isMobile) return
+    const el = sceneRef.current
+    if (!el) return
+
+    const s = { active: false, startX: 0, startGallery: 0, moved: false }
+
+    const onStart = (e: TouchEvent) => {
+      const t = e.touches[0]
+      if (!t) return
+      if (animRef.current) { animRef.current.stop(); animRef.current = null }
+      s.active = true
+      s.startX = t.clientX
+      s.startGallery = galleryX.get()
+      s.moved = false
+    }
+
+    const onMove = (e: TouchEvent) => {
+      if (!s.active) return
+      const t = e.touches[0]
+      if (!t) return
+      const dx = t.clientX - s.startX
+      if (!s.moved && Math.abs(dx) < 1) return
+      s.moved = true
+      const vw = window.innerWidth
+      const { startOff, endOff } = getLayoutInfo(vw)
+      galleryX.set(clamp(s.startGallery + dx, endOff, startOff))
+      e.preventDefault()
+    }
+
+    const onEnd = () => {
+      if (!s.active) return
+      s.active = false
+      if (!s.moved) return
+      const vw = window.innerWidth
+      const idx = state.current.activeIndex
+      const targetScroll = (idx / (n - 1)) * SCROLL_RANGE
+      const targetX = scrollToGalleryX(targetScroll, vw)
+      const spring = getClickSpring(0, true)
+      animRef.current = animate(galleryX, targetX, {
+        type: "spring",
+        stiffness: spring.stiffness,
+        damping: spring.damping,
+        onComplete: () => { animRef.current = null },
+      })
+    }
+
+    el.addEventListener("touchstart", onStart, { passive: true })
+    el.addEventListener("touchmove", onMove, { passive: false })
+    el.addEventListener("touchend", onEnd)
+    el.addEventListener("touchcancel", onEnd)
+
+    return () => {
+      el.removeEventListener("touchstart", onStart)
+      el.removeEventListener("touchmove", onMove)
+      el.removeEventListener("touchend", onEnd)
+      el.removeEventListener("touchcancel", onEnd)
+    }
+  }, [isMobile, galleryX, n])
+
   return (
     <>
       <div style={{ background: "#f5f5f5", position: "relative", cursor: `url('/cursors/cursor-default.svg') 20 20, auto` }}>
         <div
+          ref={sceneRef}
           role="region"
           aria-label="Abracadabra Records Discography"
           style={{ position: "sticky", top: 0, height: "100vh", background: "#f5f5f5" }}
@@ -436,7 +506,7 @@ export default function GalleryPage() {
               }} />
             </div>
 
-            <div style={{ overflow: "hidden" }}>
+            <div style={{ overflow: "hidden", touchAction: "none" }}>
               <div ref={railRef} style={{ display: "flex", alignItems: "flex-end", gap: 0, willChange: "transform" }}>
                 {releases.map((_, i) => (
                   <div
@@ -507,7 +577,7 @@ export default function GalleryPage() {
           </div>
         </div>
 
-        <div style={{ height: SCROLL_RANGE }} aria-hidden />
+        <div className="hidden sm:block" style={{ height: SCROLL_RANGE }} aria-hidden />
       </div>
 
       <div ref={liveRef} aria-live="polite" aria-atomic className="sr-only" />
