@@ -214,7 +214,7 @@ export default function GalleryPage() {
       applyCaption(s.activeIndex)
       if (captionDebounceRef.current) clearTimeout(captionDebounceRef.current)
       const idx = s.activeIndex
-      captionDebounceRef.current = setTimeout(() => { setActiveIdx(idx) }, 150)
+      captionDebounceRef.current = setTimeout(() => { setActiveIdx(idx) }, 70)
     }
 
     s.rafId = requestAnimationFrame(tick)
