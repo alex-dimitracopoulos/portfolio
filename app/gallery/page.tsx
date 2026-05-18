@@ -367,33 +367,34 @@ export default function GalleryPage() {
 
   return (
     <>
-      <div style={{ background: "#f5f5f5", position: "relative", cursor: `url('/cursors/cursor-default.svg') 20 20, auto` }}>
+      <div style={{ background: "#f5f5f5", position: "relative", minHeight: "100dvh", cursor: `url('/cursors/cursor-default.svg') 20 20, auto` }}>
+        <div aria-hidden style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
+          <div style={{
+            position: "absolute", inset: 0,
+            background: "radial-gradient(ellipse 80% 75% at -5% -5%, rgba(185,168,228,0.80) 0%, transparent 70%)",
+          }} />
+          <div style={{
+            position: "absolute", inset: 0,
+            background: "radial-gradient(ellipse 80% 75% at 105% 105%, rgba(128,196,180,0.75) 0%, transparent 70%)",
+          }} />
+          <div style={{
+            position: "absolute", inset: 0,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundRepeat: "repeat", backgroundSize: "200px 200px",
+            opacity: 0.15, mixBlendMode: "soft-light",
+          }} />
+        </div>
+
         <div
           ref={sceneRef}
           role="region"
           aria-label="Abracadabra Records Discography"
-          style={{ position: "sticky", top: 0, height: "100dvh", background: "#f5f5f5", touchAction: "none" }}
+          style={{ position: "sticky", top: 0, height: "100svh", touchAction: "none", zIndex: 1 }}
         >
           <style>{`
             .g-card { width: ${MOBILE_BASE_W}px; height: ${MOBILE_BASE_W}px; flex-shrink: 0; overflow: hidden; border-radius: 2px; position: relative; will-change: width, height, opacity; }
             @media (min-width: 640px) { .g-card { width: ${BASE_W}px; height: ${BASE_W}px; } }
           `}</style>
-          <div aria-hidden style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none" }}>
-            <div style={{
-              position: "absolute", inset: 0,
-              background: "radial-gradient(ellipse 80% 75% at -5% -5%, rgba(185,168,228,0.80) 0%, transparent 70%)",
-            }} />
-            <div style={{
-              position: "absolute", inset: 0,
-              background: "radial-gradient(ellipse 80% 75% at 105% 105%, rgba(128,196,180,0.75) 0%, transparent 70%)",
-            }} />
-            <div style={{
-              position: "absolute", inset: 0,
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E")`,
-              backgroundRepeat: "repeat", backgroundSize: "200px 200px",
-              opacity: 0.15, mixBlendMode: "soft-light",
-            }} />
-          </div>
 
           <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
 <div style={{
