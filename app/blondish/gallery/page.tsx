@@ -122,6 +122,7 @@ export default function GalleryPage() {
   const hoverYearRef = useRef<HTMLSpanElement>(null)
   const animRef = useRef<ReturnType<typeof animate> | null>(null)
   const isSettingScrollRef = useRef(false)
+  const captionDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const state = useRef({
     currentX: 0,
@@ -211,7 +212,9 @@ export default function GalleryPage() {
     if (s.activeIndex !== s.lastActiveIndex) {
       s.lastActiveIndex = s.activeIndex
       applyCaption(s.activeIndex)
-      setActiveIdx(s.activeIndex)
+      if (captionDebounceRef.current) clearTimeout(captionDebounceRef.current)
+      const idx = s.activeIndex
+      captionDebounceRef.current = setTimeout(() => { setActiveIdx(idx) }, 150)
     }
 
     s.rafId = requestAnimationFrame(tick)
@@ -236,6 +239,7 @@ export default function GalleryPage() {
     return () => {
       cancelAnimationFrame(s.rafId)
       animRef.current?.stop()
+      if (captionDebounceRef.current) clearTimeout(captionDebounceRef.current)
       window.removeEventListener("scroll", onScroll)
     }
   }, [tick, applyCaption, galleryX])
