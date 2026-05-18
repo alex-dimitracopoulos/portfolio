@@ -293,6 +293,12 @@ export default function GalleryPage() {
   }, [])
 
   useEffect(() => {
+    const prev = document.documentElement.style.overscrollBehavior
+    document.documentElement.style.overscrollBehavior = "none"
+    return () => { document.documentElement.style.overscrollBehavior = prev }
+  }, [])
+
+  useEffect(() => {
     if (!isMobile) return
     const el = sceneRef.current
     if (!el) return
@@ -366,7 +372,7 @@ export default function GalleryPage() {
           ref={sceneRef}
           role="region"
           aria-label="Abracadabra Records Discography"
-          style={{ position: "sticky", top: 0, height: "100vh", background: "#f5f5f5" }}
+          style={{ position: "sticky", top: 0, height: "100dvh", background: "#f5f5f5", touchAction: "none" }}
         >
           <style>{`
             .g-card { width: ${MOBILE_BASE_W}px; height: ${MOBILE_BASE_W}px; flex-shrink: 0; overflow: hidden; border-radius: 2px; position: relative; will-change: width, height, opacity; }
