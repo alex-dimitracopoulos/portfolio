@@ -297,7 +297,7 @@ export default function GalleryPage() {
     const el = sceneRef.current
     if (!el) return
 
-    const s = { active: false, startX: 0, startGallery: 0, moved: false }
+    const s = { active: false, startX: 0, startGallery: 0, moved: false, dir: 0 as -1 | 0 | 1 }
 
     const onStart = (e: TouchEvent) => {
       const t = e.touches[0]
@@ -307,6 +307,7 @@ export default function GalleryPage() {
       s.startX = t.clientX
       s.startGallery = galleryX.get()
       s.moved = false
+      s.dir = 0
     }
 
     const onMove = (e: TouchEvent) => {
@@ -314,27 +315,33 @@ export default function GalleryPage() {
       const t = e.touches[0]
       if (!t) return
       const dx = t.clientX - s.startX
-      if (!s.moved && Math.abs(dx) < 1) return
+      if (!s.moved && Math.abs(dx) < 6) return
       s.moved = true
+      s.dir = dx < 0 ? 1 : dx > 0 ? -1 : s.dir
       const vw = window.innerWidth
       const { startOff, endOff } = getLayoutInfo(vw)
       galleryX.set(clamp(s.startGallery + dx, endOff, startOff))
       e.preventDefault()
     }
 
-    const onEnd = () => {
+    const onEnd = (e: TouchEvent) => {
       if (!s.active) return
       s.active = false
       if (!s.moved) return
+      e.preventDefault()
       const vw = window.innerWidth
-      const idx = state.current.activeIndex
+      const bw = getBw(vw)
+      const { startOff } = getLayoutInfo(vw)
+      const x = galleryX.get()
+      const frac = (startOff - x) / (bw + GAP)
+      const nearest = Math.round(frac)
+      const idx = clamp(s.dir > 0 ? nearest + 1 : s.dir < 0 ? nearest - 1 : nearest, 0, n - 1)
       const targetScroll = (idx / (n - 1)) * SCROLL_RANGE
       const targetX = scrollToGalleryX(targetScroll, vw)
-      const spring = getClickSpring(0, true)
       animRef.current = animate(galleryX, targetX, {
         type: "spring",
-        stiffness: spring.stiffness,
-        damping: spring.damping,
+        stiffness: 200,
+        damping: 28,
         onComplete: () => { animRef.current = null },
       })
     }
